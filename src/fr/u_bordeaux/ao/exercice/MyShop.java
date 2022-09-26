@@ -20,8 +20,8 @@ package fr.u_bordeaux.ao.exercice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +33,7 @@ public class MyShop {
     private static final int MAX = 10;
     private final BufferedReader buff = new BufferedReader(
                 new InputStreamReader(System.in));
-    private final ArrayList<Stock> ensembleStock = new ArrayList<>();
+    private final Vector<Stock> ensembleStock = new Vector<>();
     private int ensembleSize = 0;
     
     private String lireChaine() {
