@@ -20,6 +20,11 @@ package fr.u_bordeaux.ao.exercice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ListIterator;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -77,12 +82,35 @@ public class MyShop extends Vector<Stock> {
                     
                 exceptionFlag = true;
             } catch (NumberFormatException ex) {
+                System.out.print("Le valeur saisie n'est pas valide. ");
                 System.out.print("Veuillez entrer une valeur entière: ");
                 exceptionFlag = true;
             }
         } while (exceptionFlag);
         return 0;
         
+    }
+    
+    private ZonedDateTime lireDate() {
+        boolean exceptionFlag;
+        
+        do {
+            String input = lireChaine();
+            
+            DateTimeFormatter formatter
+                    = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            
+            try {
+                return LocalDate.parse(input, formatter)
+                        .atStartOfDay(ZoneOffset.UTC);
+            } catch (DateTimeParseException ex) {
+                System.out.print("Le valeur saisie n'est pas valide. ");
+                System.out.print("Veuillez entrer une date au format "
+                        + "jj/mm/aaaa: ");
+                exceptionFlag = true;
+            }
+        } while (exceptionFlag);
+        return null;
     }
     
     private boolean existsStock(String nom) {
@@ -172,12 +200,22 @@ public class MyShop extends Vector<Stock> {
             return;
         } */
         
+        int typeProduit = choisirOption("ajouter un produit alimentaire",
+                "ajouter un produit sanitaire");
         System.out.print("Saisissez le nom du produit à ajouter: ");
         String nom = lireChaine();
         System.out.print("Saisissez la quantité disponible de ce produit: ");
         int quantite = lireEntier("non negatif");
         
-        Product product = new Product(nom, quantite);
+        Product product;
+        if (typeProduit == 1) {
+            System.out.print("Saisissez la date limite de consommation (au "
+                    + "format jj/mm/aaaa): ");
+            ZonedDateTime date = lireDate();
+            product = new FoodProduct(nom, quantite, date);
+        }
+        else
+            product = new SanitaryProduct(nom, quantite);
         
         if (get(stockNo).ajouterProduit(product))
             System.out.println("\nLe produit saisi a été ajouté au stock "

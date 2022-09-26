@@ -14,45 +14,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package fr.u_bordeaux.ao.exercice;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author sergio
  */
-public abstract class Product {
-    private final int ref;
-    private int quantite;
-    private static int comptour = 0;
-    private final String nom;
+public class FoodProduct extends Product {
+    private ZonedDateTime dateLimiteConsomation;
     
-    public Product(String nom, int quantite) {
-        ref = comptour;
-        this.nom = nom;
-        this.quantite = quantite;
-        comptour++;
-    }
-
-    /**
-     * @return the nom
-     */
-    public String getNom() {
-        return nom;
+    public FoodProduct(String nom, int quantite,
+            ZonedDateTime dateLimiteConsomation) {
+        super(nom, quantite);
+        this.dateLimiteConsomation = dateLimiteConsomation;
     }
     
+    @Override
     public void afficher() {
-        System.out.printf("Référence: %d\nNom: %s\nQuantité: %d\n", ref,
-                nom, quantite);
+        super.afficher();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.printf("Date limite de consommation: %s\n",
+                dateLimiteConsomation.format(formatter));
     }
     
-    public boolean modifierQuantite(int diff) {
-        int nouveauQuantite = quantite + diff;
-        
-        if (nouveauQuantite < 0)
-            return false;
-        
-        quantite = nouveauQuantite;
-        return true;
+    public boolean canBeSold() {
+        ZonedDateTime now = ZonedDateTime.now();
+        return now.toInstant().isBefore(
+                dateLimiteConsomation.minusDays(3).toInstant());
     }
 }
