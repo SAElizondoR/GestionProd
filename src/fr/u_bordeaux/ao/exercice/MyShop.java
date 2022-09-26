@@ -20,6 +20,8 @@ package fr.u_bordeaux.ao.exercice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +33,7 @@ public class MyShop {
     private static final int MAX = 10;
     private final BufferedReader buff = new BufferedReader(
                 new InputStreamReader(System.in));
-    private final Stock[] ensembleStock = new Stock[MAX];
+    private final ArrayList<Stock> ensembleStock = new ArrayList<>();
     private int ensembleSize = 0;
     
     private String lireChaine() {
@@ -90,8 +92,10 @@ public class MyShop {
     }
     
     private boolean existsStock(String nom) {
-        for (int i = 0; i < ensembleSize; i++) {
-            if (ensembleStock[i].getNom().equals(nom))
+        ListIterator<Stock> iter = ensembleStock.listIterator();
+        for (; iter.hasNext();) {
+            Stock stockActuel = iter.next();
+            if (stockActuel.getNom().equals(nom))
                 return true;
         }
         return false;
@@ -109,8 +113,11 @@ public class MyShop {
     
     private int choisirStock() {
         System.out.println("Sélectionnez le stock:");
-        for (int i = 0; i < ensembleSize; i++)
-            System.out.printf("%d: %s\n", i + 1, ensembleStock[i].getNom());
+        ListIterator<Stock> iter = ensembleStock.listIterator();
+        for (int i = 0; iter.hasNext(); i++) {
+            Stock stockActuel = iter.next();
+            System.out.printf("%d: %s\n", i + 1, stockActuel.getNom());
+        }
         System.out.print("Saisissez votre choix: ");
         String condition = "range 1 " + ensembleSize;
         int choix = lireEntier(condition) - 1;
@@ -148,8 +155,8 @@ public class MyShop {
         System.out.print("Saisissez l'addresse du stock: ");
         String addresse = lireChaine();
 
-        ensembleStock[ensembleSize] = new Stock(nom, addresse);
-        ensembleSize++;
+        ensembleStock.add(new Stock(nom, addresse));
+        ensembleSize = ensembleStock.size();
         
         System.out.println("\nLe stock a été créee avec succès.\n");
     }
@@ -164,7 +171,7 @@ public class MyShop {
         System.out.println("AJOUTER DES PRODUITS DANS UN STOCK");
         int stockNo = choisirStock();
         
-        if (ensembleStock[stockNo].isFull()) {
+        if (ensembleStock.get(stockNo).isFull()) {
             System.out.println("Il n'est pas possible d'ajouter des produits "
                     + "en stock car le maximum autorisé dans le tableau a déjà"
                     + "été atteint.\n");
@@ -178,7 +185,7 @@ public class MyShop {
         
         Product product = new Product(nom, quantite);
         
-        if (ensembleStock[stockNo].ajouterProduit(product))
+        if (ensembleStock.get(stockNo).ajouterProduit(product))
             System.out.println("\nLe produit saisi a été ajouté au stock "
                     + "avec succès.\n");
         else
@@ -208,7 +215,7 @@ public class MyShop {
         String nom = lireChaine();
         System.out.println();
         
-        ensembleStock[stockNo].afficherProduit(nom);
+        ensembleStock.get(stockNo).afficherProduit(nom);
     }
     
     private void modifierQuantiteProduit() {
@@ -237,7 +244,8 @@ public class MyShop {
         if (action.equals("retirer"))
             diff *= -1;
         
-        System.out.println(ensembleStock[stockNo].modifierQuantite(nom, diff));
+        System.out.println(ensembleStock.get(stockNo)
+                .modifierQuantite(nom, diff));
         System.out.println();
     }
     
