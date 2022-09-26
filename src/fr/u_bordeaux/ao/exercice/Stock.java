@@ -17,6 +17,9 @@
 
 package fr.u_bordeaux.ao.exercice;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author sergio
@@ -25,7 +28,7 @@ public class Stock {
     private static final int MAX = 10;
     private final String nom;
     private final String addresse;
-    private final Product[] tabProduct = new Product[MAX];
+    private final ArrayList<Product> tabProduct = new ArrayList<>();
     private int size = 0;
     
     public Stock(String nom, String addresse) {
@@ -48,15 +51,17 @@ public class Stock {
         if (isFull()) 
             return false;
         
-        tabProduct[size] = product;
-        size++;
+        tabProduct.add(product);
+        size = tabProduct.size();
         return true;
     }
     
     public Product rechercherProduit(String nom) {
-        for (int i = 0; i < size; i++) {
-            if (tabProduct[i].getNom().equals(nom))
-                return tabProduct[i];
+        Iterator<Product> iter = tabProduct.iterator();
+        for (; iter.hasNext();) {
+            Product prodActuel = iter.next();
+            if (prodActuel.getNom().equals(nom))
+                return prodActuel;
         }
         return null;
     }
