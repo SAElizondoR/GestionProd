@@ -30,7 +30,6 @@ import java.util.logging.Logger;
  * @author selizondorod
  */
 public class MyShop {
-    private static final int MAX = 10;
     private final BufferedReader buff = new BufferedReader(
                 new InputStreamReader(System.in));
     private final Vector<Stock> ensembleStock = new Vector<>();
@@ -87,10 +86,6 @@ public class MyShop {
         
     }
     
-    private boolean isFull() {
-        return ensembleSize >= MAX;
-    }
-    
     private boolean existsStock(String nom) {
         ListIterator<Stock> iter = ensembleStock.listIterator();
         for (; iter.hasNext();) {
@@ -142,12 +137,12 @@ public class MyShop {
     }
     
     private void creerStock() {
-        if (isFull()) {
+        /* if (isFull()) {
             System.out.println("Il n'est pas possible de créer un stock car"
                     + "le maximum autorisé dans le tableau a déjà été "
                     + "atteint.\n");
             return;
-        }
+        } */
         
         System.out.println("CRÉER UN STOCK");
         System.out.print("Saisissez le nom du stock: ");
@@ -171,12 +166,12 @@ public class MyShop {
         System.out.println("AJOUTER DES PRODUITS DANS UN STOCK");
         int stockNo = choisirStock();
         
-        if (ensembleStock.get(stockNo).isFull()) {
+        /* if (ensembleStock.get(stockNo).isFull()) {
             System.out.println("Il n'est pas possible d'ajouter des produits "
                     + "en stock car le maximum autorisé dans le tableau a déjà"
                     + "été atteint.\n");
             return;
-        }
+        } */
         
         System.out.print("Saisissez le nom du produit à ajouter: ");
         String nom = lireChaine();

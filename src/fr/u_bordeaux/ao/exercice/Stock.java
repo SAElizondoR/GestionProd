@@ -25,7 +25,6 @@ import java.util.ListIterator;
  * @author sergio
  */
 public class Stock {
-    private static final int MAX = 10;
     private final String nom;
     private final String addresse;
     private final ArrayList<Product> tabProduct = new ArrayList<>();
@@ -43,14 +42,7 @@ public class Stock {
         return nom;
     }
     
-    public boolean isFull() {
-        return size >= MAX;
-    }
-    
-    public boolean ajouterProduit(Product product) {
-        if (isFull()) 
-            return false;
-        
+    public boolean ajouterProduit(Product product) {        
         tabProduct.add(product);
         size = tabProduct.size();
         return true;
