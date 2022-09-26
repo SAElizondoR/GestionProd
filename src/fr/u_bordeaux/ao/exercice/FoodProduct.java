@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
  * @author sergio
  */
 public class FoodProduct extends Product {
-    private ZonedDateTime dateLimiteConsomation;
+    private final ZonedDateTime dateLimiteConsomation;
     
     public FoodProduct(String nom, int quantite,
             ZonedDateTime dateLimiteConsomation) {
