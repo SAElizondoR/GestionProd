@@ -18,7 +18,7 @@
 package fr.u_bordeaux.ao.exercice;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  *
@@ -76,7 +76,7 @@ public class Stock {
     }
     
     private Product rechercherProduit(String nom) {
-        Iterator<Product> iter = tabProduct.iterator();
+        ListIterator<Product> iter = tabProduct.listIterator();
         for (; iter.hasNext();) {
             Product prodActuel = iter.next();
             if (prodActuel.getNom().equals(nom))
