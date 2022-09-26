@@ -207,14 +207,8 @@ public class Boutique {
         System.out.print("Saisissez le nom du produit à afficher: ");
         String nom = lireChaine();
         System.out.println();
-        Product prod = ensembleStock[stockNo].rechercherProduit(nom);
         
-        if (prod == null)
-            System.out.println("Produit non trouvé.");
-        else
-            prod.afficher();
-        
-        System.out.println();
+        ensembleStock[stockNo].afficherProduit(nom);
     }
     
     private void modifierQuantiteProduit() {

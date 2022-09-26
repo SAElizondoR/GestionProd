@@ -56,14 +56,14 @@ public class Stock {
         return true;
     }
     
-    public Product rechercherProduit(String nom) {
-        Iterator<Product> iter = tabProduct.iterator();
-        for (; iter.hasNext();) {
-            Product prodActuel = iter.next();
-            if (prodActuel.getNom().equals(nom))
-                return prodActuel;
-        }
-        return null;
+    public void afficherProduit(String nom) {
+        Product prod = rechercherProduit(nom);
+        
+        if (prod == null)
+            System.out.println("Produit non trouvé.");
+        else
+            prod.afficher();
+        System.out.println();
     }
     
     public String modifierQuantite(String nom, int diff) {
@@ -75,4 +75,13 @@ public class Stock {
         return "Le stock du produit a été modifié avec succès.";
     }
     
+    private Product rechercherProduit(String nom) {
+        Iterator<Product> iter = tabProduct.iterator();
+        for (; iter.hasNext();) {
+            Product prodActuel = iter.next();
+            if (prodActuel.getNom().equals(nom))
+                return prodActuel;
+        }
+        return null;
+    }
 }
