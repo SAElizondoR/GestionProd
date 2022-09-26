@@ -28,7 +28,6 @@ public class Stock {
     private final String nom;
     private final String addresse;
     private final ArrayList<Product> tabProduct = new ArrayList<>();
-    private int size = 0;
     
     public Stock(String nom, String addresse) {
         this.nom = nom;
@@ -44,7 +43,6 @@ public class Stock {
     
     public boolean ajouterProduit(Product product) {        
         tabProduct.add(product);
-        size = tabProduct.size();
         return true;
     }
     
