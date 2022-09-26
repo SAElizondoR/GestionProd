@@ -29,11 +29,10 @@ import java.util.logging.Logger;
  *
  * @author selizondorod
  */
-public class MyShop {
+public class MyShop extends Vector<Stock> {
     private final BufferedReader buff = new BufferedReader(
                 new InputStreamReader(System.in));
-    private final Vector<Stock> ensembleStock = new Vector<>();
-    private int ensembleSize = 0;
+    int size = 0;
     
     private String lireChaine() {
         try  {
@@ -87,7 +86,7 @@ public class MyShop {
     }
     
     private boolean existsStock(String nom) {
-        ListIterator<Stock> iter = ensembleStock.listIterator();
+        ListIterator<Stock> iter = listIterator();
         for (; iter.hasNext();) {
             Stock stockActuel = iter.next();
             if (stockActuel.getNom().equals(nom))
@@ -108,13 +107,13 @@ public class MyShop {
     
     private int choisirStock() {
         System.out.println("Sélectionnez le stock:");
-        ListIterator<Stock> iter = ensembleStock.listIterator();
+        ListIterator<Stock> iter = listIterator();
         for (int i = 0; iter.hasNext(); i++) {
             Stock stockActuel = iter.next();
             System.out.printf("%d: %s\n", i + 1, stockActuel.getNom());
         }
         System.out.print("Saisissez votre choix: ");
-        String condition = "range 1 " + ensembleSize;
+        String condition = "range 1 " + size;
         int choix = lireEntier(condition) - 1;
         System.out.println();
         return choix;
@@ -150,14 +149,14 @@ public class MyShop {
         System.out.print("Saisissez l'addresse du stock: ");
         String addresse = lireChaine();
 
-        ensembleStock.add(new Stock(nom, addresse));
-        ensembleSize = ensembleStock.size();
+        add(new Stock(nom, addresse));
+        size = size();
         
         System.out.println("\nLe stock a été créee avec succès.\n");
     }
     
     private void ajouterProduits() {
-        if (ensembleSize == 0) {
+        if (size == 0) {
             System.out.println("Aucun stock n'a été créé, il n'est donc pas "
                     + "possible d'ajouter des produits\n");
             return;
@@ -180,7 +179,7 @@ public class MyShop {
         
         Product product = new Product(nom, quantite);
         
-        if (ensembleStock.get(stockNo).ajouterProduit(product))
+        if (get(stockNo).ajouterProduit(product))
             System.out.println("\nLe produit saisi a été ajouté au stock "
                     + "avec succès.\n");
         else
@@ -198,7 +197,7 @@ public class MyShop {
     }
     
     private void afficherCaracteristiquesProduit() {
-        if (ensembleSize == 0) {
+        if (size == 0) {
             System.out.println("Aucun stock n'a été créé\n");
             return;
         }
@@ -210,11 +209,11 @@ public class MyShop {
         String nom = lireChaine();
         System.out.println();
         
-        ensembleStock.get(stockNo).afficherProduit(nom);
+        get(stockNo).afficherProduit(nom);
     }
     
     private void modifierQuantiteProduit() {
-        if (ensembleSize == 0) {
+        if (size == 0) {
             System.out.println("Aucun stock n'a été créé\n");
             return;
         }
@@ -239,7 +238,7 @@ public class MyShop {
         if (action.equals("retirer"))
             diff *= -1;
         
-        System.out.println(ensembleStock.get(stockNo)
+        System.out.println(get(stockNo)
                 .modifierQuantite(nom, diff));
         System.out.println();
     }
